@@ -42,7 +42,7 @@ public class AppWebConfiguration extends WebMvcConfigurerAdapter {
 	public CacheManager cacheManager() {
 		final SimpleCacheManager cacheManager = new SimpleCacheManager();
 		cacheManager
-				.setCaches(Arrays.asList(new ConcurrentMapCache("patrocinadores"), new ConcurrentMapCache("campeonatos")));
+				.setCaches(Arrays.asList(new ConcurrentMapCache("patrocinadores"), new ConcurrentMapCache("campeonatos"), new ConcurrentMapCache("locaisPartida")));
 		return cacheManager;
 	}
 }
