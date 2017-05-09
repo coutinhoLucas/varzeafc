@@ -43,7 +43,7 @@ public class JPAConfiguration
       dataSource.setDriverClassName("com.mysql.jdbc.Driver");
       dataSource.setUrl("jdbc:mysql://localhost/varzeafc");
       dataSource.setUsername("root");
-      dataSource.setPassword("12345");
+      dataSource.setPassword("Lucas21081995");
       return dataSource;
    }
 

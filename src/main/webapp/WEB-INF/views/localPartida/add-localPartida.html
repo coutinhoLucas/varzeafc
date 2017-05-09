@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{templates/administracao/layout}">
+<head>
+<meta charset="UTF-8">
+<title>Adicionar Local de Partida</title>
+</head>
+<body>
+
+	<div layout:fragment="content">
+		<div id="page-wrapper">
+			<div class="row">
+				<div class="col-lg-12">
+					<h1 class="page-header">Local de Partida</h1>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-lg-12">
+					<div class="panel panel-default">
+						<div class="panel-heading">Adicionar</div>
+						<div class="panel-body">
+							<div class="row">
+								<div class="col-lg-2"></div>
+								<div class="col-lg-8">
+									<form role="form"
+										th:action="${(#mvc.url('ALDPC#add')).build()}"
+										th:object="${localPartida}" method="POST">
+
+										<div class="alert alert-success" th:text="${mensagem}"
+											th:if="${not #strings.isEmpty(mensagem)}"></div>
+
+										<div class="alert alert-danger"
+											th:if="${#fields.hasAnyErrors()}">
+											<div th:each="detailedError : ${#fields.detailedErrors()}">
+												<span th:text="${detailedError.message}"></span>
+											</div>
+										</div>
+										<div class="form-group aw-required"
+											th:classappend="${#fields.hasErrors('nomeLocalPartida')} ? has-error">
+											<div class="form-group">
+												<input placeholder="Nome" th:field="*{nomeLocalPartida}"
+													class="form-control" autofocus="autofocus" />
+
+											</div>
+										</div>
+
+										<div class="form-group aw-required"
+											th:classappend="${#fields.hasErrors('endereco.logradouro')} ? has-error">
+											<div class="form-group">
+												<input placeholder="Logradouro"
+													th:field="*{endereco.logradouro}" class="form-control"
+													autofocus="autofocus" />
+
+											</div>
+										</div>
+
+										<div class="form-group aw-required"
+											th:classappend="${#fields.hasErrors('endereco.numero')} ? has-error">
+											<div class="form-group">
+												<input placeholder="Número" th:field="*{endereco.numero}"
+													class="form-control" autofocus="autofocus" />
+
+											</div>
+										</div>
+
+										<div class="form-group aw-required"
+											th:classappend="${#fields.hasErrors('endereco.complemento')} ? has-error">
+											<div class="form-group">
+												<input placeholder="Complemento"
+													th:field="*{endereco.complemento}" class="form-control"
+													autofocus="autofocus" />
+
+											</div>
+										</div>
+
+										<div class="form-group aw-required"
+											th:classappend="${#fields.hasErrors('endereco.bairro')} ? has-error">
+											<div class="form-group">
+												<input placeholder="Bairro" th:field="*{endereco.bairro}"
+													class="form-control" autofocus="autofocus" />
+
+											</div>
+										</div>
+
+										<div class="form-group aw-required"
+											th:classappend="${#fields.hasErrors('endereco.cidade')} ? has-error">
+											<div class="form-group">
+												<input placeholder="Cidade" th:field="*{endereco.cidade}"
+													class="form-control" autofocus="autofocus" />
+
+											</div>
+										</div>
+
+										<div class="form-group aw-required"
+											th:classappend="${#fields.hasErrors('endereco.uf')} ? has-error">
+											<div class="form-group">
+												<input placeholder="UF" th:field="*{endereco.uf}"
+													class="form-control" autofocus="autofocus" />
+
+											</div>
+										</div>
+
+										<div class="form-group aw-required"
+											th:classappend="${#fields.hasErrors('endereco.cep')} ? has-error">
+											<div class="form-group">
+												<input placeholder="CEP" th:field="*{endereco.cep}"
+													class="form-control" autofocus="autofocus" />
+
+											</div>
+										</div>
+
+
+										<button type="submit" class="btn btn-success">Salvar</button>
+										<button type="reset" class="btn btn-default">Reset</button>
+									</form>
+								</div>
+
+							</div>
+							<!-- /.row (nested) -->
+						</div>
+						<!-- /.panel-body -->
+					</div>
+					<!-- /.panel -->
+				</div>
+				<!-- /.col-lg-12 -->
+			</div>
+		</div>
+	</div>
+
+</body>
+</html>

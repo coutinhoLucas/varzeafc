@@ -20,7 +20,7 @@ public class LocalPartida {
 	private Endereco endereco;
 	@OneToMany(mappedBy="localDaPartida")
 	private List<Jogo> jogos;
-
+	
 	public String getNomeLocalPartida() {
 		return nomeLocalPartida;
 	}
@@ -52,5 +52,5 @@ public class LocalPartida {
 	public void setId(Integer id) {
 		this.id = id;
 	}
-
+	
 }
