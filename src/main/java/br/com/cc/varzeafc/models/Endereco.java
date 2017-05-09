@@ -4,6 +4,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Transient;
 
 @Entity
 public class Endereco {
@@ -18,6 +19,7 @@ public class Endereco {
 	private String cidade;
 	private String uf;
 	private String numero;
+	@Transient
 	private String enderecoCompleto;
 
 	
