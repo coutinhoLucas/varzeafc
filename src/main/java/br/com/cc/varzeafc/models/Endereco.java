@@ -18,7 +18,9 @@ public class Endereco {
 	private String cidade;
 	private String uf;
 	private String numero;
+	private String enderecoCompleto;
 
+	
 	public String getLogradouro() {
 		return logradouro;
 	}
@@ -81,6 +83,14 @@ public class Endereco {
 
 	public void setId(Integer id) {
 		this.id = id;
+	}
+
+	public String getEnderecoCompleto() {
+		return logradouro + ", nº" + numero + " - " + bairro + " - " + cidade + " - " + uf + " - " + cep;
+	}
+
+	public void setEnderecoCompleto(String enderecoCompleto) {
+		this.enderecoCompleto = enderecoCompleto;
 	}
 	
 }

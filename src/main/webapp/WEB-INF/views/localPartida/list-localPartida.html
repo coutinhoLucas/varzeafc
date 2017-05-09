@@ -3,6 +3,7 @@
 	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
 	layout:decorate="~{templates/administracao/layout}">
 <head>
+<meta charset="UTF-8">
 <title>Locais de Partidas</title>
 </head>
 <body>
@@ -22,17 +23,17 @@
 							<thead>
 								<tr>
 									<th>Nome</th>
-									<th>Endereço</th>
-									<th>Ações</th>
+									<th>EndereÃ§o</th>
+									<th style="text-align: center;">AÃ§Ãµes</th>
 								</tr>
 							</thead>
 							<tbody>
 								<tr th:each="localPartida : ${locaisPartidas}">
 									<td th:text="${localPartida.nomeLocalPartida}"></td>
 
-									<td th:text="${localPartida.endereco.logradouro}"></td>
+									<td th:text="${localPartida.endereco.enderecoCompleto}"></td>
 
-									<td><a
+									<td style="text-align: center;"><a
 										th:href="${(#mvc.url('ALDPC#carregaLocalPartida')).build() + '/'} +  ${localPartida.id}"
 										class="btn btn-success">Editar</a> 
 										<a

@@ -2,7 +2,6 @@ package br.com.cc.varzeafc.models;
 
 import java.util.List;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -17,11 +16,11 @@ public class LocalPartida {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 	private String nomeLocalPartida;
-	@OneToOne(cascade = CascadeType.PERSIST)
+	@OneToOne
 	private Endereco endereco;
 	@OneToMany(mappedBy="localDaPartida")
 	private List<Jogo> jogos;
-
+	
 	public String getNomeLocalPartida() {
 		return nomeLocalPartida;
 	}

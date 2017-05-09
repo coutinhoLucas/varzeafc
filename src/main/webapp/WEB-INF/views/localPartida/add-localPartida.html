@@ -3,6 +3,7 @@
 	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
 	layout:decorate="~{templates/administracao/layout}">
 <head>
+<meta charset="UTF-8">
 <title>Adicionar Local de Partida</title>
 </head>
 <body>
@@ -57,7 +58,7 @@
 										<div class="form-group aw-required"
 											th:classappend="${#fields.hasErrors('endereco.numero')} ? has-error">
 											<div class="form-group">
-												<input placeholder="Número" th:field="*{endereco.numero}"
+												<input placeholder="NÃºmero" th:field="*{endereco.numero}"
 													class="form-control" autofocus="autofocus" />
 
 											</div>

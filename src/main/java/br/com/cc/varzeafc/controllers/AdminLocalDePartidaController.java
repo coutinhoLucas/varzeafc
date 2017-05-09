@@ -57,6 +57,7 @@ public class AdminLocalDePartidaController {
 	@Cacheable("locaisPartida")
 	public ModelAndView list() {
 		ModelAndView view = new ModelAndView("localPartida/list-localPartida");
+		
 		view.addObject("locaisPartidas", localDePartidaDAO.listarTodos());
 		return view;
 	}
@@ -88,6 +89,7 @@ public class AdminLocalDePartidaController {
 	public String remove(@PathVariable("id") Integer id) {
 		LocalPartida localPartida = localDePartidaDAO.buscaPorId(id);
 		localDePartidaDAO.excluir(localPartida);
+		enderecoDAO.excluir(localPartida.getEndereco());
 		return "redirect:/admin/locaisPartida";
 	}
 
