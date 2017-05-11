@@ -13,16 +13,16 @@ public class Posicao {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Integer codigo;
+	private Integer id;
 	private String descricao;
 	@OneToMany(mappedBy="posicao")
 	private List<Jogador> jogadores;
 	
-	public Integer getCodigo() {
-		return codigo;
+	public Integer getId() {
+		return id;
 	}
-	public void setCodigo(Integer codigo) {
-		this.codigo = codigo;
+	public void setId(Integer id) {
+		this.id = id;
 	}
 		
 	public String getDescricao() {
