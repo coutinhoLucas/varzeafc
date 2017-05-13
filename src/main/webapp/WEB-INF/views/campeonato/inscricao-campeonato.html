@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{templates/administracao/layout}">
+<head>
+<title>Inscrição campeonato</title>
+</head>
+<body>
+	<div layout:fragment="content">
+		<div id="page-wrapper">
+			<div class="row">
+				<div class="col-lg-12">
+					<h1 class="page-header">Inscrição</h1>
+				</div>
+				<!-- /.col-lg-12 -->
+			</div>
+			<!-- /.row -->
+			<div class="row">
+				<div class="col-lg-12">
+					<div class="panel panel-default">
+						<div class="panel-body">
+							<div class="row">
+								<div class="col-lg-12">
+									<h1 th:text="${campeonato.nome}"></h1>
+									<div class="row">
+										<div class="col-lg-5">
+											<p th:text="'Temporada: ' + ${campeonato.temporada.ano}"></p>
+											<p th:text="'Taxa de inscrição: R$ ' + ${campeonato.taxaDeInscricao}"></p>
+										</div>
+										<div class="col-lg-8">
+											<p th:text="${campeonato.descricao}"></p>
+										</div>
+									</div>
+									<form th:action="${(#mvc.url('PCC#processaPagamento')).build()}"
+										th:object="${inscricao}" method="POST">
+										<input type="hidden" th:value="${{campeonato}}" name="campeonato">
+										<button type="submit" class="btn btn-success">Pagar inscrição</button>
+									</form>
+									<img class="img-responsive" src="https://www.paypalobjects.com/webstatic/mktg/logo/AM_SbyPP_mc_vs_dc_ae.jpg">
+								</div>
+
+							</div>
+							<!-- /.row (nested) -->
+						</div>
+						<!-- /.panel-body -->
+					</div>
+					<!-- /.panel -->
+				</div>
+				<!-- /.col-lg-12 -->
+			</div>
+		</div>
+	</div>
+
+</body>
+</html>

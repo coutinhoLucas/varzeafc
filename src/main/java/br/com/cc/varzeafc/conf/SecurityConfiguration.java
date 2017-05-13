@@ -18,9 +18,9 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 	protected void configure(HttpSecurity http) throws Exception {
 
 		http.authorizeRequests().antMatchers("/", "/add", "/cadastro", "/usuario/add").permitAll()
-				.antMatchers("/sistema").hasAnyRole("PRESIDENTE", "PUBLICADOR", "ADMIN")
+				.antMatchers("/**").hasAnyRole("PRESIDENTE", "PUBLICADOR", "ADMIN")
 				.antMatchers("/admin/**").hasAnyRole("ADMIN").anyRequest().authenticated()
-				.and().formLogin().loginPage("/login").defaultSuccessUrl("/sistema").permitAll().and()
+				.and().formLogin().loginPage("/login").defaultSuccessUrl("/varzeafc").permitAll().and()
 				.rememberMe().and().logout().deleteCookies("JSESSIONID").logoutSuccessUrl("/");
 
 		/*
@@ -43,6 +43,6 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 	@Override
 	public void configure(WebSecurity web) throws Exception {
 		// you can change
-		web.ignoring().antMatchers("/assets/**");
+		web.ignoring().antMatchers("/assets/**","/resources/");
 	}
 }

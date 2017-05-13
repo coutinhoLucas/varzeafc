@@ -42,6 +42,31 @@
 
 											</div>
 										</div>
+										<div class="form-group aw-required"
+											th:classappend="${#fields.hasErrors('descricao')} ? has-error">
+											<div class="form-group">
+												<textarea placeholder="Descrição" th:field="*{descricao}"
+													class="form-control" rows="4" cols="50">
+												</textarea>
+
+											</div>
+										</div>
+										<div class="form-group aw-required"
+											th:classappend="${#fields.hasErrors('numeroDeEquipes')} ? has-error">
+											<div class="form-group">
+												<input placeholder="Numero de equipes" th:field="*{numeroDeEquipes}"
+													class="form-control" type="number"/>
+
+											</div>
+										</div>
+										<div class="form-group aw-required"
+											th:classappend="${#fields.hasErrors('taxaDeInscricao')} ? has-error">
+											<div class="form-group">
+												<input placeholder="Taxa de inscrição" th:field="*{taxaDeInscricao}"
+													class="form-control"  />
+
+											</div>
+										</div>
 										<div class="form-group">
 											<label for="grupo">Patrocinador</label> 
 											<select class="form-control"

@@ -22,7 +22,9 @@
 							<thead>
 								<tr>
 									<th>Nome</th>
+									<th>Descrição</th>
 									<th>Data de criação</th>
+									<th>Taxa de inscrição</th>
 									<th>Status</th>
 									<th>Patrocinadores</th>
 									<th>Temporada</th>
@@ -34,8 +36,9 @@
 							<tbody>
 								<tr th:each="campeonato : ${campeonatos}">
 									<td th:text="${campeonato.nome}"></td>
-									<td
-										th:text="*{#calendars.format(campeonato.dataCriacao,'dd MMMM yyyy')}"></td>
+									<td th:text="${campeonato.descricao}"></td>
+									<td	th:text="*{#calendars.format(campeonato.dataCriacao,'dd MMMM yyyy')}"></td>
+									<td th:text="${campeonato.taxaDeInscricao}"></td>
 									<td th:text="${campeonato.status}"></td>
 									<td>
 										<div th:each="patrocinador : ${campeonato.patrocinadores}"

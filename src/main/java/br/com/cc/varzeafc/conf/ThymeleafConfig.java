@@ -26,6 +26,7 @@ public class ThymeleafConfig {
 
         viewResolver.setTemplateEngine(templateEngine);
         viewResolver.setCharacterEncoding("UTF-8");
+        viewResolver.setContentType("text/html;charset=UTF-8");
     
         return viewResolver;
     }
@@ -47,7 +48,7 @@ public class ThymeleafConfig {
         SpringResourceTemplateResolver templateResolver = new SpringResourceTemplateResolver();
 
         templateResolver.setApplicationContext(this.applicationContext);
-        templateResolver.setTemplateMode(TemplateMode.HTML);
+        templateResolver.setTemplateMode("HTML5");
         templateResolver.setPrefix("/WEB-INF/views/");
         templateResolver.setSuffix(".html");
         templateResolver.setCharacterEncoding("UTF-8");
