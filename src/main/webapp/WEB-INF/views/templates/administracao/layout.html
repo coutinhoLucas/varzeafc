@@ -323,6 +323,19 @@
                             </ul>
                             <!-- /.nav-second-level -->
                         </li>
+                        
+                        <li sec:authorize="hasRole('ROLE_PRESIDENTE')">
+                            <a href="#"><i class="fa fa-wrench fa-fw"></i>Jogador<span class="fa arrow"></span></a>
+                            <ul class="nav nav-second-level">
+                                <li>
+                                    <a th:href="${(#mvc.url('PJC#form')).build()}">Cadastrar</a>
+                                </li>
+                                <li>
+                                    <a th:href="${(#mvc.url('PJC#list')).build()}">Listar</a>
+                                </li>                                
+                            </ul>
+                            <!-- /.nav-second-level -->
+                        </li>
                         <li>
                             <a href="#"><i class="fa fa-sitemap fa-fw"></i> Multi-Level Dropdown<span class="fa arrow"></span></a>
                             <ul class="nav nav-second-level">

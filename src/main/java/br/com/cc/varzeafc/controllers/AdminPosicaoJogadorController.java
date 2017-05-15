@@ -77,7 +77,7 @@ public class AdminPosicaoJogadorController {
 		redirectAttributes.addFlashAttribute("mensagem",
 				"Posição "+posicao.getDescricao() +" atualizado com sucesso.");
 
-		return new ModelAndView("redirect:/admin/posicao");
+		return new ModelAndView("redirect:/admin/posicoes");
 	}
 
 	@RequestMapping(method = RequestMethod.GET, value = "posicao/excluir/{id}")

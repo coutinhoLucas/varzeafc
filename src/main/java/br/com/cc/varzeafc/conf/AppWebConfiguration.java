@@ -17,6 +17,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter
 
 import br.com.cc.varzeafc.formatter.GrupoFormatter;
 import br.com.cc.varzeafc.formatter.PatrocinadorFormatter;
+import br.com.cc.varzeafc.formatter.PosicaoFormatter;
 import br.com.cc.varzeafc.formatter.TemporadaFormatter;
 
 @Configuration
@@ -36,6 +37,7 @@ public class AppWebConfiguration extends WebMvcConfigurerAdapter {
 		registry.addFormatter(new PatrocinadorFormatter());
 		registry.addFormatter(new GrupoFormatter());
 		registry.addFormatter(new TemporadaFormatter());
+		registry.addFormatter(new PosicaoFormatter());
 	}
 
 	@Bean
@@ -43,7 +45,7 @@ public class AppWebConfiguration extends WebMvcConfigurerAdapter {
 		final SimpleCacheManager cacheManager = new SimpleCacheManager();
 		cacheManager
 				.setCaches(Arrays.asList(new ConcurrentMapCache("patrocinadores"), new ConcurrentMapCache("campeonatos"),
-						new ConcurrentMapCache("locaisPartida"),  new ConcurrentMapCache("posicoes")));
+						new ConcurrentMapCache("locaisPartida"),  new ConcurrentMapCache("posicoes"),  new ConcurrentMapCache("jogadores")));
 		return cacheManager;
 	}
 }
