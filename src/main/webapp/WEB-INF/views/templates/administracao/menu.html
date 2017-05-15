@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+<head>
+<meta charset="utf-8">
+</head>
+<body>
+	<div class="navbar-default sidebar" role="navigation" th:fragment="menu">
+		<div class="sidebar-nav navbar-collapse">
+			<ul class="nav" id="side-menu">
+				<li><a th:href="${(#mvc.url('HC#varzeaFc')).build()}"><i
+						class="fa fa-dashboard fa-fw"></i> Home</a></li>
+
+				<li sec:authorize="hasRole('ROLE_ADMIN')"><a href="#"><i
+						class="fa fa-bar-chart-o fa-fw"></i>Patrocinador<span
+						class="fa arrow"></span></a>
+					<ul class="nav nav-second-level">
+						<li><a th:href="${(#mvc.url('APC#form')).build()}">Cadastrar</a>
+						</li>
+						<li><a th:href="${(#mvc.url('APC#list')).build()}">Listar</a>
+						</li>
+					</ul> <!-- /.nav-second-level --></li>
+
+				<li sec:authorize="hasRole('ROLE_ADMIN')"><a href="#"><i
+						class="fa fa-bar-chart-o fa-fw"></i>Campeonatos<span
+						class="fa arrow"></span></a>
+					<ul class="nav nav-second-level">
+						<li><a th:href="${(#mvc.url('ACC#formCampeonato')).build()}">Cadastrar</a>
+						</li>
+						<li><a th:href="${(#mvc.url('ACC#list')).build()}">Listar
+								campeonatos</a></li>
+						<li><a th:href="${(#mvc.url('ACC#formTemporada')).build()}">Cadastrar
+								temporada</a></li>
+					</ul> <!-- /.nav-second-level --></li>
+
+				<li sec:authorize="hasRole('ROLE_ADMIN')"><a href="#"><i
+						class="fa fa-bar-chart-o fa-fw"></i>Local de Partida<span
+						class="fa arrow"></span></a>
+					<ul class="nav nav-second-level">
+						<li><a th:href="${(#mvc.url('ALDPC#form')).build()}">Cadastrar</a>
+						</li>
+						<li><a th:href="${(#mvc.url('ALDPC#list')).build()}">Listar</a>
+						</li>
+					</ul></li>
+				<li sec:authorize="hasRole('ROLE_ADMIN')"><a
+					th:href="${(#mvc.url('AUC#form')).build()}"><i
+						class="fa fa-edit fa-fw"></i> Adicionar usuários</a></li>
+				<li sec:authorize="hasRole('ROLE_PRESIDENTE')"><a
+					th:href="${(#mvc.url('PCC#shopCampeonatos')).build()}"><i
+						class="fa fa-edit fa-fw"></i> Campeonatos</a></li>
+				<li><a href="#"><i class="fa fa-wrench fa-fw"></i> UI
+						Elements<span class="fa arrow"></span></a>
+					<ul class="nav nav-second-level">
+						<li><a href="panels-wells.html">Panels and Wells</a></li>
+						<li><a href="buttons.html">Buttons</a></li>
+						<li><a href="notifications.html">Notifications</a></li>
+						<li><a href="typography.html">Typography</a></li>
+						<li><a href="icons.html"> Icons</a></li>
+						<li><a href="grid.html">Grid</a></li>
+					</ul> <!-- /.nav-second-level --></li>
+				<li><a href="#"><i class="fa fa-sitemap fa-fw"></i>
+						Multi-Level Dropdown<span class="fa arrow"></span></a>
+					<ul class="nav nav-second-level">
+						<li><a href="#">Second Level Item</a></li>
+						<li><a href="#">Second Level Item</a></li>
+						<li><a href="#">Third Level <span class="fa arrow"></span></a>
+							<ul class="nav nav-third-level">
+								<li><a href="#">Third Level Item</a></li>
+								<li><a href="#">Third Level Item</a></li>
+								<li><a href="#">Third Level Item</a></li>
+								<li><a href="#">Third Level Item</a></li>
+							</ul> <!-- /.nav-third-level --></li>
+					</ul> <!-- /.nav-second-level --></li>
+				<li><a href="#"><i class="fa fa-files-o fa-fw"></i> Sample
+						Pages<span class="fa arrow"></span></a>
+					<ul class="nav nav-second-level">
+						<li><a href="blank.html">Blank Page</a></li>
+						<li><a href="login.html">Login Page</a></li>
+					</ul> <!-- /.nav-second-level --></li>
+			</ul>
+		</div>
+		<!-- /.sidebar-collapse -->
+	</div>
+
+</body>
+</html>

@@ -14,6 +14,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
+import javax.persistence.Lob;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
@@ -34,12 +35,10 @@ public class Campeonato implements Serializable {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Expose
 	private Integer id;
-	@Expose
 	@NotBlank(message = "Nome é obrigatório")
 	private String nome;
 	@Temporal(TemporalType.DATE)
@@ -52,11 +51,14 @@ public class Campeonato implements Serializable {
 	@Enumerated(EnumType.STRING)
 	private CampeonatoStatus status;
 	@ManyToMany(fetch = FetchType.EAGER)
-	@JoinTable(name = "INSCRICAO", joinColumns = @JoinColumn(name = "campeonato_id"), 
-	inverseJoinColumns = @JoinColumn(name = "equipe_id"))
+	@JoinTable(name = "INSCRICAO", joinColumns = @JoinColumn(name = "campeonato_id"), inverseJoinColumns = @JoinColumn(name = "equipe_id"))
 	private List<Equipe> equipes;
 	@OneToMany(mappedBy = "campeonato")
 	private List<Rodada> rodadas;
+	private Double taxaDeInscricao;
+	@Lob
+	private String descricao;
+	private Integer numeroDeEquipes;
 
 	public Integer getId() {
 		return id;
@@ -122,12 +124,28 @@ public class Campeonato implements Serializable {
 		this.rodadas = rodadas;
 	}
 
-	public String toJson() {
-		Gson gson = new GsonBuilder().excludeFieldsWithoutExposeAnnotation().create();
-		JsonElement jsonCampeonato = gson.toJsonTree(this);
-		JsonElement jsonStatus = gson.toJsonTree(Arrays.asList(CampeonatoStatus.values()));
-		jsonCampeonato.getAsJsonObject().addProperty("TodosStaus", gson.toJson(jsonStatus));
-		return gson.toJson(jsonCampeonato);
+	public Double getTaxaDeInscricao() {
+		return taxaDeInscricao;
+	}
+
+	public void setTaxaDeInscricao(Double taxaDeInscricao) {
+		this.taxaDeInscricao = taxaDeInscricao;
+	}
+
+	public String getDescricao() {
+		return descricao;
+	}
+
+	public void setDescricao(String descricao) {
+		this.descricao = descricao;
+	}
+
+	public Integer getNumeroDeEquipes() {
+		return numeroDeEquipes;
+	}
+
+	public void setNumeroDeEquipes(Integer numeroDeEquipes) {
+		this.numeroDeEquipes = numeroDeEquipes;
 	}
 
 }

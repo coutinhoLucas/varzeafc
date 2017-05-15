@@ -38,7 +38,7 @@ public class UserDetailsServiceLogin implements UserDetailsService {
 			throw new UsernameNotFoundException("Usuário não encontrado!");
 		}
 
-		return new UsuarioSistema(usuario.getLogin(), usuario.getSenha(), authorities(usuario));
+		return new UsuarioSistema(usuario.getLogin(), usuario.getSenha(), authorities(usuario), usuario.getId());
 	}
 
 	public Collection<? extends GrantedAuthority> authorities(Usuario usuario) {

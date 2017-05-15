@@ -1,6 +1,6 @@
 package br.com.cc.varzeafc.models;
 
-import java.time.LocalDate;
+import java.util.Calendar;
 import java.util.List;
 
 import javax.persistence.Entity;
@@ -10,9 +10,20 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
+
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+
+import com.paypal.api.payments.Payment;
+
+import br.com.cc.varzeafc.conf.UsuarioSistema;
+import br.com.cc.varzeafc.daos.EquipeDAO;
+import br.com.cc.varzeafc.daos.InscricaoDAO;
 
 @Entity
-@Table(name="INSCRICAO")
+@Table(name = "INSCRICAO")
 public class Inscricao {
 
 	@Id
@@ -23,12 +34,13 @@ public class Inscricao {
 	@ManyToOne
 	private Equipe equipe;
 	private Double valor;
-	private LocalDate dataPagamento;
+	@Temporal(TemporalType.DATE)
+	private Calendar dataPagamento;
 	private String statusPagamento;
-	@OneToMany(mappedBy="inscricao")
+	private String codigoPagamento;
+	@OneToMany(mappedBy = "inscricao")
 	private List<Jogador> jogadores;
 
-	
 	public Double getValor() {
 		return valor;
 	}
@@ -37,11 +49,11 @@ public class Inscricao {
 		this.valor = valor;
 	}
 
-	public LocalDate getDataPagamento() {
+	public Calendar getDataPagamento() {
 		return dataPagamento;
 	}
 
-	public void setDataPagamento(LocalDate dataPagamento) {
+	public void setDataPagamento(Calendar dataPagamento) {
 		this.dataPagamento = dataPagamento;
 	}
 
@@ -84,7 +96,25 @@ public class Inscricao {
 	public void setEquipe(Equipe equipe) {
 		this.equipe = equipe;
 	}
-	
-	
+
+	public String getCodigoPagamento() {
+		return codigoPagamento;
+	}
+
+	public void setCodigoPagamento(String codigoPagamento) {
+		this.codigoPagamento = codigoPagamento;
+	}
+
+	public void salvaDadosInscricao(Payment payment, InscricaoDAO inscricaoDAO, EquipeDAO equipeDAO) {
+		
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		UsuarioSistema usuario = (UsuarioSistema) auth.getPrincipal();
+		this.setEquipe(equipeDAO.buscaEquipePorIdPresidente(usuario.getId()));
+		this.setDataPagamento(Calendar.getInstance());
+		this.setCodigoPagamento(payment.getId());
+		this.setStatusPagamento(payment.getState());
+		inscricaoDAO.salva(this);
+		
+	}
 
 }

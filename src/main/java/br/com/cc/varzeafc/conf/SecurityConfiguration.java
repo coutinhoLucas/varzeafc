@@ -7,6 +7,8 @@ import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.web.csrf.CsrfFilter;
+import org.springframework.web.filter.CharacterEncodingFilter;
 
 @EnableWebSecurity
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
@@ -17,11 +19,12 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 
-		http.authorizeRequests().antMatchers("/", "/add", "/cadastro", "/usuario/add").permitAll()
-				.antMatchers("/sistema").hasAnyRole("PRESIDENTE", "PUBLICADOR", "ADMIN")
-				.antMatchers("/admin/**").hasAnyRole("ADMIN").anyRequest().authenticated()
-				.and().formLogin().loginPage("/login").defaultSuccessUrl("/sistema").permitAll().and()
-				.rememberMe().and().logout().deleteCookies("JSESSIONID").logoutSuccessUrl("/");
+		addFilterEncoding(http);
+
+		http.authorizeRequests().antMatchers("/", "/add", "/cadastro", "/usuario/add").permitAll().antMatchers("/**")
+				.hasAnyRole("PRESIDENTE", "PUBLICADOR", "ADMIN").antMatchers("/admin/**").hasAnyRole("ADMIN")
+				.anyRequest().authenticated().and().formLogin().loginPage("/login").defaultSuccessUrl("/varzeafc")
+				.permitAll().and().rememberMe().and().logout().deleteCookies("JSESSIONID").logoutSuccessUrl("/");
 
 		/*
 		 * EXAMPLE OF AUTHENTICATION AND AUTHORIZATION
@@ -35,6 +38,13 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 		 */
 	}
 
+	private void addFilterEncoding(HttpSecurity http) {
+		CharacterEncodingFilter filter = new CharacterEncodingFilter();
+		filter.setEncoding("UTF-8");
+		filter.setForceEncoding(true);
+		http.addFilterBefore(filter, CsrfFilter.class);
+	}
+
 	@Override
 	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
 		auth.userDetailsService(users).passwordEncoder(new BCryptPasswordEncoder());
@@ -43,6 +53,6 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 	@Override
 	public void configure(WebSecurity web) throws Exception {
 		// you can change
-		web.ignoring().antMatchers("/assets/**");
+		web.ignoring().antMatchers("/assets/**", "/resources/");
 	}
 }

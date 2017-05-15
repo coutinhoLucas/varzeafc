@@ -14,6 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -25,7 +26,7 @@ import br.com.cc.varzeafc.models.Usuario;
 @Controller
 @Transactional
 @RequestMapping("/")
-@Scope("session")
+@Scope(value=WebApplicationContext.SCOPE_REQUEST)
 public class HomeController {
 
 	@Autowired
@@ -86,9 +87,9 @@ public class HomeController {
 		return grupos;
 	}
 
-	@RequestMapping("/sistema")
-	public String sistema() {
-		return "sistema";
+	@RequestMapping("/varzeafc")
+	public String varzeaFc() {
+		return "varzeafc/home/index";
 	}
 
 }
