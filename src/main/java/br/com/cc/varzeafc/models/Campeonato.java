@@ -1,7 +1,6 @@
 package br.com.cc.varzeafc.models;
 
 import java.io.Serializable;
-import java.util.Arrays;
 import java.util.Calendar;
 import java.util.List;
 
@@ -23,10 +22,6 @@ import javax.persistence.TemporalType;
 
 import org.hibernate.validator.constraints.NotBlank;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.google.gson.JsonElement;
-import com.google.gson.annotations.Expose;
 
 @Entity
 public class Campeonato implements Serializable {
