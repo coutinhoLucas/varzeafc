@@ -17,5 +17,9 @@ public class InscricaoDAO {
 		manager.persist(inscricao);
 
 	}
+	
+	public Inscricao buscaPorId(Integer id) {
+		return manager.find(Inscricao.class, id);
+	}
 
 }
