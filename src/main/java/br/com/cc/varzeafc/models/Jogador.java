@@ -1,6 +1,6 @@
 package br.com.cc.varzeafc.models;
 
-import java.time.LocalDate;
+import java.util.Calendar;
 import java.util.List;
 
 import javax.persistence.Entity;
@@ -19,7 +19,7 @@ public class Jogador {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 	private String nome;
-	private LocalDate dataNascimento;
+	private Calendar dataNascimento;
 	@ManyToMany
 	@JoinTable(name = "ESCALACAO",
 				joinColumns= @JoinColumn(name ="jogador_id"),
@@ -46,11 +46,11 @@ public class Jogador {
 		this.nome = nome;
 	}
 
-	public LocalDate getDataNascimento() {
+	public Calendar getDataNascimento() {
 		return dataNascimento;
 	}
 
-	public void setDataNascimento(LocalDate dataNascimento) {
+	public void setDataNascimento(Calendar dataNascimento) {
 		this.dataNascimento = dataNascimento;
 	}
 

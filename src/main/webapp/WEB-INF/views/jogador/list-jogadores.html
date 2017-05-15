@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{templates/administracao/layout}">
+<head>
+<title>Campeonatos</title>
+</head>
+<body>
+	<div layout:fragment="content">
+		<div id="page-wrapper">
+			<div class="row">
+				<div class="col-lg-12">
+					<h1 class="page-header">Campeonatos</h1>
+				</div>
+				<!-- /.col-lg-12 -->
+			</div>
+			<!-- /.row -->
+			<div class="row">
+				<div class="col-lg-12">
+					<div class="table-responsive">
+						<table class="table table-bordered table-hover table-striped">
+							<thead>
+								<tr>
+									<th>Nome</th>
+									<th>Data de criação</th>
+									<th>Status</th>
+									<th>Patrocinadores</th>
+									<th>Temporada</th>
+									<th>Equipes escritas</th>
+									<th>Editar</th>
+									<th>Excluir</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr th:each="campeonato : ${campeonatos}">
+									<td th:text="${campeonato.nome}"></td>
+									<td
+										th:text="*{#calendars.format(campeonato.dataCriacao,'dd MMMM yyyy')}"></td>
+									<td th:text="${campeonato.status}"></td>
+									<td>
+										<div th:each="patrocinador : ${campeonato.patrocinadores}"
+											th:text="${patrocinador.nome}"></div>
+									</td>
+									<td th:text="${campeonato.temporada.ano}"></td>
+									<td>
+										<div th:each="equipe : ${campeonato.equipes}"
+											th:text="${equipe.nome}"></div>
+									</td>
+									<td><a th:href="${(#mvc.url('ACC#carregaCampeonato')).build() + '/'} +  ${campeonato.id}"
+										class="btn btn-success">Editar</a></td>
+									<td><a
+										th:href="${(#mvc.url('ACC#remove')).build() + '/'} + ${campeonato.id}"
+										class="btn btn-danger">Excluir</a></td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+				</div>
+				<!-- /.col-lg-12 -->
+			</div>
+		</div>
+</body>
+</html>

@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{templates/administracao/layout}">
+<head>
+<meta charset="UTF-8">
+<title>Posições</title>
+</head>
+<body>
+	<div layout:fragment="content">
+		<div id="page-wrapper">
+			<div class="row">
+				<div class="col-lg-12">
+					<h1 class="page-header">Posições</h1>
+				</div>
+				<!-- /.col-lg-12 -->
+			</div>
+			<!-- /.row -->
+			<div class="row">
+				<div class="col-lg-12">
+					<div class="alert alert-success" th:text="${mensagem}"
+											th:if="${not #strings.isEmpty(mensagem)}"></div>
+				
+					<div class="table-responsive">
+						<table class="table table-bordered table-hover table-striped">
+							<thead class="bg-primary">
+								<tr>
+									<th>Descrição</th>
+									<th WIDTH=25% style="text-align: center;">Ações</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr th:each="posicao : ${posicoes}">
+									<td th:text="${posicao.descricao}"></td>
+
+									<td style="text-align: center;"><a
+										th:href="${(#mvc.url('APJC#carregaPosicao')).build() + '/'} +  ${posicao.id}"
+										class="btn btn-success">Editar</a> 
+										<a
+										th:href="${(#mvc.url('APJC#remove')).build() + '/'} + ${posicao.id}"
+										class="btn btn-danger">Excluir</a></td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+				</div>
+				<!-- /.col-lg-12 -->
+			</div>
+		</div>
+</body>
+</html>
