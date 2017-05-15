@@ -3,6 +3,7 @@
 	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
 	layout:decorate="~{templates/administracao/layout}">
 <head>
+<meta charset="UTF-8">
 <title>Campeonatos</title>
 </head>
 <body>
@@ -18,13 +19,13 @@
 							<div class="row">
 								<div class="col-md-12">
 									<h4 th:text="${campeonato.nome}">First Product</h4>
-								<p th:text="'Taxa de inscrição: ' + ${campeonato.taxaDeInscricao}"></p>
+								<p th:text="'Taxa de inscriÃ§Ã£o: ' + ${campeonato.taxaDeInscricao}"></p>
 								</div>
 							</div>
 							<p th:text="'Temporada ' + ${campeonato.temporada.ano}">
 							</p>
 							<p>
-								<a th:href="${(#mvc.url('PCC#inscricaoCampeonato')).build() + '/'} + ${campeonato.id}" class="btn btn-success">Mais informações</a>
+								<a th:href="${(#mvc.url('PCC#inscricaoCampeonato')).build() + '/'} + ${campeonato.id}" class="btn btn-success">Mais informaÃ§Ãµes</a>
 							</p>
 						</div>
 					</div>

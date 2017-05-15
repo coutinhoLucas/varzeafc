@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+
 import br.com.cc.varzeafc.daos.JogadorDAO;
 import br.com.cc.varzeafc.daos.PosicaoDAO;
 import br.com.cc.varzeafc.models.Jogador;
@@ -32,7 +33,7 @@ public class PresidenteJogadorController {
 
 	@Autowired
 	private PosicaoDAO posicaoDAO;
-
+	
 	@RequestMapping(method = RequestMethod.GET, value = "jogador")
 	public ModelAndView form(Jogador jogador) {
 		ModelAndView view = new ModelAndView("jogador/add-jogador");
@@ -58,14 +59,16 @@ public class PresidenteJogadorController {
 		jogadorDAO.salva(jogador);
 
 		redirectAttributes.addFlashAttribute("mensagem", "Jogador cadastrado com sucesso.");
-		return new ModelAndView("redirect:/admin/jogador");
+		return new ModelAndView("redirect:/jogador");
 	}
 
 	@RequestMapping(method = RequestMethod.GET, value = "jogadores")
 	@Cacheable("jogadores")
 	public ModelAndView list(Jogador jogador) {
 		ModelAndView view = new ModelAndView("jogador/list-jogadores");
+		
 		view.addObject("jogadores", jogadorDAO.listarTodos());
+		
 		return view;
 	}
 
@@ -88,15 +91,22 @@ public class PresidenteJogadorController {
 		}
 
 		jogadorDAO.atualizaJogador(jogador);
-		return new ModelAndView("redirect:/admin/jogadores");
+		return new ModelAndView("redirect:/jogadores");
 	}
 
 	@RequestMapping(method = RequestMethod.GET, value = "jogador/excluir/{id}")
 	@CacheEvict(value = "jogadores", allEntries = true)
-	public String remove(@PathVariable("id") Integer id) {
+	public String remove(@PathVariable("id") Integer id, RedirectAttributes redirectAttributes) {
 		Jogador jogador = jogadorDAO.buscaPorId(id);
-		jogadorDAO.excluir(jogador);
-		return "redirect:/admin/jogadores";
+		
+		if(jogador.getInscricao() == null){
+			jogadorDAO.excluir(jogador);
+			
+			return "redirect:/jogadores";
+		}
+		
+		redirectAttributes.addFlashAttribute("mensagem", "Não foi possivel excluir o jogador, pois está inscrito em um campeonato.");
+		return "redirect:/jogadores";
 	}
 
 }
