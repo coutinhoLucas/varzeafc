@@ -71,6 +71,17 @@ public class PresidenteJogadorController {
 		
 		return view;
 	}
+	
+
+	@RequestMapping(method = RequestMethod.GET, value = "associarJogadores")
+	@Cacheable("jogadores")
+	public ModelAndView listarAssociar(Jogador jogador) {
+		ModelAndView view = new ModelAndView("jogador/associar-jogadores");
+		
+		view.addObject("jogadores", jogadorDAO.listarTodos());
+		
+		return view;
+	}
 
 	@RequestMapping(method = RequestMethod.GET, value = "jogador/{id}")
 	public ModelAndView carregaJogador(@PathVariable("id") Integer id) {
