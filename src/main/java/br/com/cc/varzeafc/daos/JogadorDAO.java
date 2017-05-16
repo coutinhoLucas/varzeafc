@@ -1,5 +1,6 @@
 package br.com.cc.varzeafc.daos;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import javax.persistence.EntityManager;
@@ -7,6 +8,7 @@ import javax.persistence.PersistenceContext;
 
 import org.springframework.stereotype.Repository;
 
+import br.com.cc.varzeafc.models.Campeonato;
 import br.com.cc.varzeafc.models.Jogador;
 
 @Repository
@@ -21,6 +23,12 @@ public class JogadorDAO {
 
 	public List<Jogador> listarTodos() {
 		return manager.createQuery("select j from Jogador j", Jogador.class).getResultList();
+	}
+	
+	
+	public List<Jogador> listaJogadoresSemInscricao() {
+		return manager.createQuery(
+				"select j from Jogador j where j.inscricao is null", Jogador.class).getResultList();
 	}
 
 	public Jogador buscaPorId(Integer id) {
