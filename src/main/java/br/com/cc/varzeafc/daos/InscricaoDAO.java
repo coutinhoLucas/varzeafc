@@ -21,5 +21,12 @@ public class InscricaoDAO {
 	public Inscricao buscaPorId(Integer id) {
 		return manager.find(Inscricao.class, id);
 	}
+	
+	public Inscricao buscaPorIdEquipe(Integer id) {
+
+		return manager.createQuery("select i from Inscricao i JOIN i.equipe e where e.id = :id", Inscricao.class)
+				.setParameter("id", id).getSingleResult();
+
+	}
 
 }
