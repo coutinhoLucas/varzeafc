@@ -8,7 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.context.annotation.Scope;
-import org.springframework.remoting.caucho.BurlapServiceExporter;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
@@ -29,7 +28,6 @@ import br.com.cc.varzeafc.daos.PosicaoDAO;
 import br.com.cc.varzeafc.models.Campeonato;
 import br.com.cc.varzeafc.models.Equipe;
 import br.com.cc.varzeafc.models.Inscricao;
-import br.com.cc.varzeafc.models.InscricaoJogadorCampeonato;
 import br.com.cc.varzeafc.models.Jogador;
 import br.com.cc.varzeafc.models.Posicao;
 
@@ -89,7 +87,7 @@ public class PresidenteJogadorController {
 		jogadorDAO.salva(jogador);
 		
 		redirectAttributes.addFlashAttribute("mensagem", "Jogador cadastrado com sucesso.");
-		return new ModelAndView("redirect:varzeafc/jogador");
+		return new ModelAndView("redirect:/varzeafc/jogador");
 	}
 
 	@RequestMapping(method = RequestMethod.GET, value = "jogadores")
@@ -140,41 +138,6 @@ public class PresidenteJogadorController {
 		return "redirect:/jogadores";
 	}
 
-	@RequestMapping(method = RequestMethod.GET, value = "inscreverJogadores")
-	@Cacheable("jogadores")
-	public ModelAndView listarAssociar(InscricaoJogadorCampeonato lisJogadores) {
-		ModelAndView view = new ModelAndView("jogador/inscrever-jogadores");
-
-		view.addObject("allJogadores", jogadorDAO.listaJogadoresSemInscricao());
-
-		return view;
-	}
-
-/*	@RequestMapping(method = RequestMethod.POST, value = "inscreverJogadores")
-	@CacheEvict(value = "jogadores", allEntries = true)
-	public ModelAndView inscreverJogadores(InscricaoJogadorCampeonato listJogadores, BindingResult bindingResult,
-			RedirectAttributes redirectAttributes) {
-
-		if (bindingResult.hasErrors() || listJogadores == null) {
-			return listarAssociar(listJogadores);
-		}
-
-		Equipe equipe = equipeDAO.buscaEquipePorIdPresidente(usuario.getId());
-		Campeonato campeonatoAtivo = equipe.verificaCampeonatoAtivo();
-		if (campeonatoAtivo == null) {
-			redirectAttributes.addFlashAttribute("mensagem", "Sua equipe não possui uma inscrição em campeonato.");
-			return listarAssociar(listJogadores);
-		}
-
-		Inscricao inscricao = inscricaoDAO.buscaPorIdEquipe(equipe.getId(), campeonatoAtivo.getId());
-
-		inscricao.setJogadores(listJogadores.getJogadores());
-		inscricaoDAO.update(inscricao);
-
-		redirectAttributes.addFlashAttribute("mensagem",
-				"Jogadores inscritos no campeonato " + inscricao.getCampeonato().getNome());
-		return listarAssociar(listJogadores);
-	}*/
 
 	private UsuarioSistema getUsuarioLogado() {
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
