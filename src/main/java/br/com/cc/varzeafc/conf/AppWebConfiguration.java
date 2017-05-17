@@ -15,6 +15,7 @@ import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 
+import br.com.cc.varzeafc.formatter.CalendarFormatter;
 import br.com.cc.varzeafc.formatter.CampeonatoFormatter;
 import br.com.cc.varzeafc.formatter.GrupoFormatter;
 import br.com.cc.varzeafc.formatter.JogadorFormatter;
@@ -41,6 +42,7 @@ public class AppWebConfiguration extends WebMvcConfigurerAdapter {
 		registry.addFormatter(new PosicaoFormatter());
 		registry.addFormatter(new CampeonatoFormatter());
 		registry.addFormatter(new JogadorFormatter());
+		registry.addFormatter(new CalendarFormatter());
 	}
 
 	@Bean

@@ -26,7 +26,7 @@
 								<div class="col-lg-8">
 
 									<form role="form" th:action="${(#mvc.url('PJC#inscreverJogadores')).build()}"
-										th:object="${jogadores}" method="POST">
+										th:object="${inscricaoJogadorCampeonato}" method="POST">
 																							
 										<div class="row">
 											<div class="col-lg-12">
@@ -41,11 +41,10 @@
 															</tr>
 														</thead>
 														<tbody>
-															<tr th:each="jogador : ${jogadores}">
-														        <td th:text="${jogador.nome}"></td>
-														        <td th:text="${jogador.posicao.descricao}"></td>
+															<tr th:each="j : ${allJogadores}">
+														        <td th:text="${j.nome}"></td>
 														        <td>
-														        	<input type="checkbox" id="jogador" th:value="${jogador.id}" th:field="${jogadores}" />
+														        	<input type="checkbox" th:field="*{jogadores}" th:value="${j.id}"/>
 														        
 														        </td>
 														    </tr>
