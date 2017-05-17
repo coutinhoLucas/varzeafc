@@ -3,6 +3,7 @@ package br.com.cc.varzeafc.models;
 import java.util.Calendar;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -13,6 +14,7 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+import org.hibernate.annotations.Cascade;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 
@@ -105,7 +107,7 @@ public class Inscricao {
 		this.codigoPagamento = codigoPagamento;
 	}
 
-	public void salvaDadosInscricao(Payment payment, InscricaoDAO inscricaoDAO, EquipeDAO equipeDAO) {
+	public void salvaDadosInscricao(Payment payment, InscricaoDAO inscricaoDAO, EquipeDAO equipeDAO, Double valorInscricao) {
 		
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		UsuarioSistema usuario = (UsuarioSistema) auth.getPrincipal();
@@ -113,6 +115,7 @@ public class Inscricao {
 		this.setDataPagamento(Calendar.getInstance());
 		this.setCodigoPagamento(payment.getId());
 		this.setStatusPagamento(payment.getState());
+		this.setValor(valorInscricao);
 		inscricaoDAO.salva(this);
 		
 	}

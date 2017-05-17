@@ -27,7 +27,7 @@ import br.com.cc.varzeafc.util.PayPalConstants;
 @Repository
 public class PayPal {
 	
-	public Payment createPayment(HttpServletRequest req, HttpServletResponse resp, String valor) {
+	public Payment createPayment(HttpServletRequest req, HttpServletResponse resp, String valor) throws Exception {
 		Payment createdPayment = null;
 
 		APIContext apiContext = new APIContext(PayPalConstants.clientID, PayPalConstants.clientSecret,
@@ -54,7 +54,7 @@ public class PayPal {
 						"Executed The Payment " + Payment.getLastRequest() + "   " + Payment.getLastResponse());
 
 			} catch (PayPalRESTException e) {
-				System.out.println("Executed The Payment " + Payment.getLastRequest() + "   " + e.getMessage());
+				throw new Exception();
 			}
 		} else {
 
@@ -115,7 +115,7 @@ public class PayPal {
 						.println("Payment with PayPal " + Payment.getLastRequest() + "  " + Payment.getLastResponse());
 
 			} catch (PayPalRESTException e) {
-				System.out.println("Payment with PayPal " + Payment.getLastRequest() + "   " + e.getMessage());
+				throw new Exception();
 			}
 		}
 		return createdPayment;

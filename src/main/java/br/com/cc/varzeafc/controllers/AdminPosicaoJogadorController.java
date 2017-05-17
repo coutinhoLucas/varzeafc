@@ -12,6 +12,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -21,8 +22,8 @@ import br.com.cc.varzeafc.models.Posicao;;
 
 @Controller
 @Transactional
-@Scope("session")
 @RequestMapping("/admin")
+@Scope(value=WebApplicationContext.SCOPE_REQUEST)
 public class AdminPosicaoJogadorController {
 
 	@Autowired

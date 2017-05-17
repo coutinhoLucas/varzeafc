@@ -23,12 +23,10 @@ import br.com.cc.varzeafc.models.Campeonato;
 import br.com.cc.varzeafc.models.Inscricao;
 import br.com.cc.varzeafc.paypal.PayPal;
 
-
-
 @Controller
 @RequestMapping("/varzeafc")
 @Transactional
-@Scope(value=WebApplicationContext.SCOPE_SESSION)
+@Scope(value = WebApplicationContext.SCOPE_SESSION)
 public class PresidenteCampeonatoController {
 
 	@Autowired
@@ -50,47 +48,68 @@ public class PresidenteCampeonatoController {
 	}
 
 	@RequestMapping(method = RequestMethod.GET, value = "campeonato/{id}")
-	public ModelAndView inscricaoCampeonato(@PathVariable("id") Integer id, Campeonato campeonato, HttpSession session) {
+	public ModelAndView inscricaoCampeonato(@PathVariable("id") Integer id, Campeonato campeonato,
+			HttpSession session) {
 		campeonato = campeonatoDAO.buscaPorId(id);
 		session.setAttribute("taxaInscricao", campeonato.getTaxaDeInscricao());
 		return new ModelAndView("campeonato/inscricao-campeonato").addObject("campeonato", campeonato);
 	}
 
-
 	@RequestMapping(method = RequestMethod.POST, value = "pagamento")
 	public String processaPagamento(Inscricao inscricao, HttpServletRequest req, HttpServletResponse resp) {
 
-		Payment payment = payPal.createPayment(req, resp, Double.toString((Double) req.getSession().getAttribute("taxaInscricao")));
+		try {
 
-		if (payment == null) {
-			return "erros/erro";
+			Double valorInscricao = (Double) req.getSession().getAttribute("taxaInscricao");
+			Payment payment = payPal.createPayment(req, resp, Double.toString(valorInscricao));
+			inscricao.salvaDadosInscricao(payment, inscricaoDAO, equipeDAO, valorInscricao);
+
+		} catch (Exception e) {
+			return "redirect:erropagamento";
 		}
-
-		inscricao.salvaDadosInscricao(payment, inscricaoDAO, equipeDAO);
 
 		return "redirect:" + req.getAttribute("redirectURL").toString();
 	}
 
 	@RequestMapping(method = RequestMethod.GET, value = "paymentwithpaypalprocess")
-	public String payPalProcess(HttpServletRequest req, HttpServletResponse resp) {
-		Payment payment = payPal.createPayment(req, resp, null);
+	public ModelAndView payPalProcess(HttpServletRequest req, HttpServletResponse resp) {
 
-		if (payment == null) {
-			System.out.println("Erro");
+		try {
+
+			Payment payment = payPal.createPayment(req, resp, null);
+			Inscricao inscricao = inscricaoDAO.getInscricaoPeloCodigoPagamento(payment.getId());
+			inscricao.setStatusPagamento(payment.getState());
+			inscricaoDAO.update(inscricao);
+
+		} catch (Exception e) {
+			return new ModelAndView("redirect:erropagamento");
 		}
-		
-		return "pagamento/success";
+
+		return new ModelAndView("redirect:pagamentook");
+
 	}
 
 	@RequestMapping(method = RequestMethod.GET, value = "paymentwithpaypalcancel")
 	public String payPalCancel(HttpServletRequest req, HttpServletResponse resp) {
-		Payment payment = payPal.createPayment(req, resp, null);
+		try {
 
-		if (payment == null) {
-			System.out.println("Erro");
+			Payment payment = payPal.createPayment(req, resp, null);
+
+		} catch (Exception e) {
+			return "erros/erro";
 		}
-		
+
 		return "erros/erro";
+	}
+
+	@RequestMapping(method = RequestMethod.GET, value = "pagamentook")
+	public ModelAndView pagamentoOk() {
+		return new ModelAndView("pagamento/success");
+	}
+
+	@RequestMapping(method = RequestMethod.GET, value = "erropagamento")
+	public ModelAndView erroPagamento() {
+		return new ModelAndView("erros/erro");
 	}
 
 }

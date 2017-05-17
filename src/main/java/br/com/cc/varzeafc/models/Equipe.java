@@ -97,4 +97,18 @@ public class Equipe {
 	public void setJogosVisitante(List<Jogo> jogosVisitante) {
 		this.jogosVisitante = jogosVisitante;
 	}
+
+	public Campeonato buscaCampeonatoAberto() {
+		
+		Campeonato campeonatoAtivo = null;
+		
+		for (Campeonato campeonato : this.getCampeonatos()) {
+			if(campeonato.getStatus().name().equals("ABERTO")){
+				campeonatoAtivo = campeonato;
+			}
+		}
+		
+		return campeonatoAtivo;
+		
+	}
 }
