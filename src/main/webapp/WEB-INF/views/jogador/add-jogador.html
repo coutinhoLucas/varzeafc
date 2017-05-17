@@ -4,22 +4,32 @@
 	layout:decorate="~{templates/administracao/layout}">
 <head>
 <meta charset="UTF-8">
-<title>Adicionar jogador</title>
+<title>Inscrever jogador</title>
 </head>
 <body>
 	<div layout:fragment="content">
 		<div id="page-wrapper">
 			<div class="row">
 				<div class="col-lg-12">
-					<h1 class="page-header">Jogador</h1>
+					<h1 class="page-header">Inscrever Jogador</h1>
 				</div>
 				<!-- /.col-lg-12 -->
 			</div>
+			
+			<div class="row">
+				<div class="col-lg-12">
+					<div class="alert alert-info">
+  						Campeonato Atual: <label th:text="${campeonato}" ></label>
+					</div>
+				</div>
+			</div>
+			
 			<!-- /.row -->
 			<div class="row">
 				<div class="col-lg-12">
+				
 					<div class="panel panel-primary">
-						<div class="panel-heading">Adicionar</div>
+						<div class="panel-heading">Inscrever</div>
 						<div class="panel-body">
 							<div class="row">
 								<div class="col-lg-2"></div>
@@ -47,7 +57,7 @@
 											th:classappend="${#fields.hasErrors('dataNascimento')} ? has-error">
 											<div class="form-group">
 												<input placeholder="Data Nascimento" th:field="*{dataNascimento}"
-													class="form-control"  type="text" />
+													class="form-control"  type="date" />
 
 											</div>
 										</div>
