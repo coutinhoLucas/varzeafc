@@ -25,6 +25,10 @@ public class JogadorDAO {
 		return manager.createQuery("select j from Jogador j", Jogador.class).getResultList();
 	}
 	
+	public List<Jogador> listarJogadoresPorPresidente(Integer idPresidente) {
+		return manager.createQuery("select j from Jogador as j where j.inscricao.equipe.presidente.id = :idPresidente", Jogador.class)
+				.setParameter("idPresidente", idPresidente).getResultList();
+	}
 	
 	public List<Jogador> listaJogadoresSemInscricao() {
 		return manager.createQuery(

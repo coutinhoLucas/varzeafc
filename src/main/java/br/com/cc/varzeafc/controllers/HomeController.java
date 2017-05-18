@@ -8,6 +8,8 @@ import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
@@ -18,7 +20,11 @@ import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import br.com.cc.varzeafc.conf.UsuarioSistema;
+import br.com.cc.varzeafc.daos.EquipeDAO;
 import br.com.cc.varzeafc.daos.UsuarioDAO;
+import br.com.cc.varzeafc.models.Campeonato;
+import br.com.cc.varzeafc.models.Equipe;
 import br.com.cc.varzeafc.models.Grupo;
 import br.com.cc.varzeafc.models.Presidente;
 import br.com.cc.varzeafc.models.Usuario;
@@ -26,15 +32,26 @@ import br.com.cc.varzeafc.models.Usuario;
 @Controller
 @Transactional
 @RequestMapping("/")
-@Scope(value=WebApplicationContext.SCOPE_REQUEST)
+@Scope(value = WebApplicationContext.SCOPE_REQUEST)
 public class HomeController {
 
 	@Autowired
 	private UsuarioDAO usuarioDAO;
-	
+
+	@Autowired
+	private EquipeDAO equipeDAO;
+
 	@RequestMapping(method = RequestMethod.GET)
-	public String index() {
-		return "index";
+	public ModelAndView index() {
+
+		ModelAndView view = new ModelAndView("index");
+
+		Equipe equipe = equipeDAO.buscaEquipePorIdPresidente(getUsuarioLogado().getId());
+		Campeonato campeonatoAberto = equipe.buscaCampeonatoAberto();
+
+		view.addObject("equipe", campeonatoAberto.getNome());
+
+		return view;
 	}
 
 	@RequestMapping("add")
@@ -65,7 +82,8 @@ public class HomeController {
 	}
 
 	@RequestMapping(method = RequestMethod.POST, value = "usuario/add")
-	public ModelAndView addPresidente(@Valid Presidente presidente, BindingResult bindingResult, RedirectAttributes redirectAttributes) {
+	public ModelAndView addPresidente(@Valid Presidente presidente, BindingResult bindingResult,
+			RedirectAttributes redirectAttributes) {
 
 		if (bindingResult.hasErrors()) {
 			return cadastro(presidente);
@@ -88,8 +106,24 @@ public class HomeController {
 	}
 
 	@RequestMapping("/varzeafc")
-	public String varzeaFc() {
-		return "varzeafc/home/index";
+	public ModelAndView varzeaFc() {
+		
+		ModelAndView view = new ModelAndView("varzeafc/home/index");
+
+		Equipe equipe = equipeDAO.buscaEquipePorIdPresidente(getUsuarioLogado().getId());
+		Campeonato campeonatoAberto = equipe.buscaCampeonatoAberto();
+
+		view.addObject("equipe", equipe.getNome());
+
+		return view;
+	}
+
+	private UsuarioSistema getUsuarioLogado() {
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		UsuarioSistema usuario = (UsuarioSistema) auth.getPrincipal();
+
+		return usuario;
+
 	}
 
 }

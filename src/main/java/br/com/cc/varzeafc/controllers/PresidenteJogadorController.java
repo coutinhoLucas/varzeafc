@@ -63,6 +63,7 @@ public class PresidenteJogadorController {
 		}
 
 		view.addObject("posicoes", carregaPosicoes());
+		view.addObject("campeonato", campeonatoAberto.getNome());
 		return view;
 	}
 
@@ -78,12 +79,8 @@ public class PresidenteJogadorController {
 		if (bindingResult.hasErrors()) {
 			return new ModelAndView("jogador/add-jogador").addObject("posicoes",carregaPosicoes());
 		}
-		
-		Equipe equipe = equipeDAO.buscaEquipePorIdPresidente(getUsuarioLogado().getId());
-		Campeonato campeonatoAberto = equipe.buscaCampeonatoAberto();
-		Inscricao inscricao = inscricaoDAO.getInscricaoPeloIdDeEquipeEcampeonatoAtivo(equipe.getId(), campeonatoAberto.getId());
-		
-		jogador.setInscricao(inscricao);
+				
+		jogador.setInscricao(getInscricaoAtual());
 		jogadorDAO.salva(jogador);
 		
 		redirectAttributes.addFlashAttribute("mensagem", "Jogador cadastrado com sucesso.");
@@ -92,10 +89,17 @@ public class PresidenteJogadorController {
 
 	@RequestMapping(method = RequestMethod.GET, value = "jogadores")
 	@Cacheable("jogadores")
-	public ModelAndView list(Jogador jogador) {
+	public ModelAndView list(Jogador jogador, RedirectAttributes redirectAttributes) {
 		ModelAndView view = new ModelAndView("jogador/list-jogadores");
 
-		view.addObject("jogadores", jogadorDAO.listarTodos());
+		List<Jogador> list = jogadorDAO.listarJogadoresPorPresidente(getUsuarioLogado().getId());
+		
+		if (list.isEmpty()) {
+			redirectAttributes.addFlashAttribute("erro","Sua equipe ainda não possui jogadores.");
+			return new ModelAndView("redirect:/varzeafc");
+		}
+		
+		view.addObject("jogadores", list );
 
 		return view;
 	}
@@ -112,10 +116,10 @@ public class PresidenteJogadorController {
 
 	@RequestMapping(method = RequestMethod.POST, value = "jogador/{id}")
 	@CacheEvict(value = "jogadores", allEntries = true)
-	public ModelAndView update(@PathVariable("id") Integer id, @Valid Jogador jogador, BindingResult bindingResult) {
+	public ModelAndView update(@PathVariable("id") Integer id, @Valid Jogador jogador, BindingResult bindingResult, RedirectAttributes redirectAttributes) {
 
 		if (bindingResult.hasErrors()) {
-			return list(jogador);
+			return list(jogador, redirectAttributes);
 		}
 
 		jogadorDAO.atualizaJogador(jogador);
@@ -138,7 +142,14 @@ public class PresidenteJogadorController {
 		return "redirect:/jogadores";
 	}
 
-
+	private Inscricao getInscricaoAtual(){
+		Equipe equipe = equipeDAO.buscaEquipePorIdPresidente(getUsuarioLogado().getId());
+		Campeonato campeonatoAberto = equipe.buscaCampeonatoAberto();
+		Inscricao inscricao = inscricaoDAO.getInscricaoPeloIdDeEquipeEcampeonatoAtivo(equipe.getId(), campeonatoAberto.getId());
+		
+		return inscricao;
+	}
+	
 	private UsuarioSistema getUsuarioLogado() {
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		UsuarioSistema usuario = (UsuarioSistema) auth.getPrincipal();
